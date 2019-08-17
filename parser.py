@@ -6,24 +6,19 @@ from bs4 import BeautifulSoup
 # 2. how it works - ОК
 # 3. eject temperature [+27,+25,+30...+28] - OK
 # 4. eject time - OK
-# 5. make clear output time and tmptre - OK
+# 5. print clear output time and tmptre - OK
 #    if need more days use "forecastDate" 6 3 (rigth now = 1)
 
 def http_request(adress):
-    """
-    This is weather parser
-    :param adress:
-    :return:
-    """
+    '''make request and eject some info'''
     r = requests.get(adress)
     soup = BeautifulSoup(r.text, 'lxml')
     txt = soup.find('div', id="ftab_1_content").text
-    # with open('xxx.txt','w', encoding='utf-8') as b:
-    #     b.write(str(soup.prettify()))
     return txt.strip()
 
 
 def tempture(all_text):
+    '''eject temperature from http_request'''
     temper_mix = []
     temper_C = []
     temper_F = []
@@ -41,6 +36,7 @@ def tempture(all_text):
 
 
 def time_is(all_text):
+    '''eject time from http_request'''
     time = []
     today = []
     tomorrow = []
@@ -62,6 +58,7 @@ def time_is(all_text):
 
 
 def day_is(all_text, end_index):
+    '''eject weekday from http_request'''
     # start from 11 - because we no need 'День недели'
     text = all_text[11:end_index].strip()
     # split day-text for today & tomorrow
@@ -73,10 +70,9 @@ def day_is(all_text, end_index):
 
 
 def main():
-    # adress = 'https://rp5.ru/%D0%9F%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0_%D0%B2_%D0%A0%D0%BE' \
-    # '%D1%81%D1%82%D0%BE%D0%B2%D0%B5-%D0%BD%D0%B0-%D0%94%D0%BE%D0%BD%D1%83'
-    adress = 'https://rp5.ru/%D0%9F%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0_%D0%B2_%D0%93%D1' \
-             '%83%D0%BA%D0%BE%D0%B2%D0%BE,_%D0%93%D1%83%D0%BA%D0%BE%D0%B2%D0%BE'
+    '''main parameters and output some info'''
+    adress = 'https://rp5.ru/%D0%9F%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0_%D0%B2_%D0%A0%D0%BE' \
+    '%D1%81%D1%82%D0%BE%D0%B2%D0%B5-%D0%BD%D0%B0-%D0%94%D0%BE%D0%BD%D1%83'
     read_html = http_request(adress)
     today_time, tomor_time, end_day_marker = time_is(read_html)
     today_day, tomor_day = day_is(read_html, end_day_marker)
