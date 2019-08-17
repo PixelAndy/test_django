@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 # 3. eject temperature [+27,+25,+30...+28] - OK
 # 4. eject time - OK
 # 5. print clear output time and tmptre - OK
-#    if need more days use "forecastDate" 6 3 (rigth now = 1)
+#    if need more days use ftab_X_content in "forecastDate" 6 3 (rigth now = 1)
 
 def http_request(adress):
     '''make request and eject some info'''
